@@ -39,6 +39,8 @@ class TestTurbomachinery:
     def setup_network(self, instance):
         self.nw = Network(['INCOMP::DowQ', 'NH3', 'N2', 'O2', 'Ar'],
                           T_unit='C', p_unit='bar', v_unit='m3 / s')
+        # self.nw = Network(['NH3', 'N2', 'O2', 'Ar'],
+        #                   T_unit='C', p_unit='bar', v_unit='m3 / s')
         self.source = Source('source')
         self.sink = Sink('sink')
         self.c1 = Connection(self.source, 'out1', instance, 'in1')
@@ -52,6 +54,7 @@ class TestTurbomachinery:
 
         # compress NH3, other fluids in network are for turbine, pump, ...
         fl = {'N2': 1, 'O2': 0, 'Ar': 0, 'DowQ': 0, 'NH3': 0}
+        # fl = {'N2': 1, 'O2': 0, 'Ar': 0, 'NH3': 0}
         self.c1.set_attr(fluid=fl, v=1, p=1, T=5)
         self.c2.set_attr(p=6)
         instance.set_attr(eta_s=0.8)

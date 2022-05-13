@@ -140,7 +140,7 @@ class AdiabaticConstPressureReactor(Component):
 
         # calculate reaction enthalpy
         T_in = self.inl[0].T.val_SI
-        self.reaction_enthalpy_SI = -55.6e6*0.1
+        # self.reaction_enthalpy_SI = -55.6e6*0.1
         self.reaction_enthalpy_SI = self.reac.calculate_reaction_enthalpy(n0=self.n_in, X=self.X.val, T0=T_in) # J/s
 
         Component.comp_init(self, nw)
@@ -166,9 +166,6 @@ class AdiabaticConstPressureReactor(Component):
                 & +\dot{m}_\mathrm{out,3} \cdot \left( h_\mathrm{out,3} -
                 h_\mathrm{out,3,ref} + e_0\right)\\
                 \end{split}
-
-            - Reference temperature: 298.15 K.
-            - Reference pressure: 1 bar.
         """
         return self.outl[0].m.val_SI * self.outl[0].h.val_SI - \
                self.inl[0].m.val_SI * self.inl[0].h.val_SI
@@ -224,21 +221,6 @@ class AdiabaticConstPressureReactor(Component):
         # outlet
         self.jacobian[k, 1, 0] = self.outl[0].h.val_SI
         self.jacobian[k, 1, 2] = self.outl[0].m.val_SI
-
-    # def energy_balance_deriv(self):
-    #     r"""
-    #     Partial derivatives for reactor energy balance.
-    #     """
-    #
-    #     deriv = np.zeros((1, len(self.conn_loc) + self.num_vars, self.num_nw_vars))
-    #     # inlet
-    #     deriv[0, 0, 0] = self.inl[0].h.val_SI
-    #     deriv[0, 0, 2] = self.inl[0].m.val_SI
-    #     # outlet
-    #     deriv[0, 1, 0] = -self.outl[0].h.val_SI
-    #     deriv[0, 1, 2] = -self.outl[0].m.val_SI
-    #
-    #     return deriv
 
 
     def fluid_func(self):
